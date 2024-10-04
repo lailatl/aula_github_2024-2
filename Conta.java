@@ -2,14 +2,13 @@ public class Conta {
     private int numero;
     private int agencia;
     private String tipo;
-    private double saldo;
+    private double saldo = 0.0;
     
 
-    public Conta(int num, int agencia, String tipo, double saldo ) {
+    public Conta(int num, int agencia, String tipo) {
        this.numero = num;
        this.agencia = agencia;
        this.tipo = tipo;
-       this.saldo = saldo;
     }
     // Getters e Setters para cada atributo
     public int getNumero() {
