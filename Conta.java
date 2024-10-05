@@ -1,12 +1,15 @@
-import java.util.ArrayList;
+
 import java.util.List;
+
 
 public class Conta {
     private int numero;
     private int agencia;
     private String tipo;
+
     private double saldo;
     private List<Transacao> transacoes;
+
     
 
     public Conta(int num, int agencia, String tipo) {
@@ -49,6 +52,7 @@ public class Conta {
         this.saldo = saldo;
     }
 
+
     public List<Transacao> getTransacoes() {
         return transacoes;
     }
@@ -56,5 +60,6 @@ public class Conta {
     public void setTransacao(Transacao transacao) {
         transacoes.add(transacao);
     }
+
 
 }
