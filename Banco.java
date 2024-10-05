@@ -13,8 +13,8 @@ public class Banco {
 
     public Banco() {
         ArrayList<Conta> Contas = new ArrayList<>();
-        //Cliente cliente1 = new Cliente("ygor", "123" , "rua tal","2222-3333", "yfcm@mail");
-        //Clientes.add(cliente1);
+        Cliente cliente1 = new Cliente("ygor", "123" , "rua tal","2222-3333", "yfcm@mail");
+        Clientes.add(cliente1);
     }
 
 
@@ -61,20 +61,53 @@ public class Banco {
             System.out.println(warning+"Cliente não cadastrado\n");
             return;
         } else {
-            System.out.println("O saldo da sua conta é: " + cliente.getConta().getSaldo());
+            System.out.println(format+"O saldo da sua conta é: " + cliente.getConta().getSaldo()+format);
         }
 
     }
 
      ////////////falta implemetar//////////////
      public void visualizarCliente(){
+        String cpf;
         System.out.println(espaco+"Visualizar Dados do Cliente\n");
+
+        System.out.println("Informe o número do seu CPF: ");
+        cpf = s.nextLine();
+
+        Cliente cliente = findCliente(cpf);
+        if (cliente == null){ 
+            System.out.println(warning+"Cliente não cadastrado\n");
+            return;
+        } else {
+            System.out.println(format+"DADOS CADASTRADOS\n");
+            System.out.println("Nome: " + cliente.getNome());
+            System.out.println("Endereço: " + cliente.getEndereco());
+            System.out.println("Telefone: " + cliente.getTelefone());
+            System.out.println("Email: " + cliente.getEmail()+format);
+        }
         
     }
 
     ////////////falta implemetar//////////////
     public void visualizarConta(){
+        String cpf;
         System.out.println(espaco+"Visualizar Dados de Conta\n");
+
+        System.out.println("Informe o número do seu CPF: ");
+        cpf = s.nextLine();
+
+        Cliente cliente = findCliente(cpf);
+        if (cliente == null){ 
+            System.out.println(warning+"Cliente não cadastrado\n");
+            return;
+        } else {
+            Conta conta = cliente.getConta();
+            System.out.println(format+"DADOS DA CONTA\n");
+            System.out.println("Número: " + conta.getNumero());
+            System.out.println("Agência: " + conta.getAgencia());
+            System.out.println("Tipo: " + conta.getTipo());
+            System.out.println("Saldo: " + conta.getSaldo()+format);
+        }
         
     }
 
