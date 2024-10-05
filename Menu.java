@@ -1,5 +1,3 @@
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,7 +38,6 @@ public class Menu {
 				System.out.println("Opcao errada!");
 				op=0;
 			}
-
 		}
 		return op;
 	}
