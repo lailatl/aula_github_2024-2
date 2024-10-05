@@ -21,6 +21,7 @@ public class Main {
 					switch(opContaMenu) {
 							case 1:
 								banco.cadastrarConta();
+								break;
 							case 2:
 								banco.consultarSaldo();
 								break;
