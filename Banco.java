@@ -133,7 +133,7 @@ public class Banco {
             } else {
                 cliente.getConta().setSaldo(cliente.getConta().getSaldo() + valor);
                 Transacao transacao = new Transacao(LocalDateTime.now(), "Depósito", valor);
-                cliente.getConta().addTransacao(transacao);
+                cliente.getConta().setTransacao(transacao);
                 
                 System.out.println(format+"Depósito realizado com sucesso!\n");
                 System.out.println("Novo saldo: " + cliente.getConta().getSaldo()+format);
@@ -172,9 +172,8 @@ public class Banco {
         if (conta.getSaldo() >= valor) {
             conta.setSaldo(conta.getSaldo() - valor);
 
-            Date data = new Date();
             String tipo = "Saque";
-            Transacao transacao = new Transacao(data, tipo, valor);
+            Transacao transacao = new Transacao(LocalDateTime.now(), tipo, valor);
             conta.setTransacao(transacao);
 
             System.out.println("Saque de valor " + valor + " realizado com sucesso. Novo saldo: " + conta.getSaldo() + format);
