@@ -1,9 +1,10 @@
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
 	private String title;
-	String espaco = "\n-----------------------------------------------\n";
 	private List<String> options;
 
 	public Menu(List<String> options) {
@@ -19,13 +20,13 @@ public class Menu {
 	public int getSelection() {
 		int op = 0;
 		while (op==0){
-			System.out.println(espaco + title+"\n");
+			System.out.println(title+"\n");
 			int i=1;
 			for (String option : options) {
 				System.out.println(i++ + " - " + option);
 			}
 
-			System.out.println(espaco+"Informe a opcao desejada. ");
+			System.out.println("Informe a opcao desejada. ");
 			Scanner s = new Scanner(System.in);
 			String str = s.nextLine();
 			try {
@@ -38,6 +39,7 @@ public class Menu {
 				System.out.println("Opcao errada!");
 				op=0;
 			}
+
 		}
 		return op;
 	}
