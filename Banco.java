@@ -67,7 +67,6 @@ public class Banco {
 
     }
 
-     ////////////falta implemetar//////////////
      public void visualizarCliente(){
         String cpf;
         System.out.println(espaco+"Visualizar Dados do Cliente\n");
@@ -89,7 +88,6 @@ public class Banco {
         
     }
 
-    ////////////falta implemetar//////////////
     public void visualizarConta(){
         String cpf;
         System.out.println(espaco+"Visualizar Dados de Conta\n");
@@ -144,7 +142,6 @@ public class Banco {
         
     }
 
-    ////////////falta implemetar//////////////
     public void fazerSaque() {
         System.out.println(espaco + "Realizar Saque na Conta\n");
 
