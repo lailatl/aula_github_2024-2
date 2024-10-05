@@ -5,12 +5,14 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) {
+		
 		Scanner s = new Scanner(System.in);
-		ArrayList<Conta> contas = new ArrayList<>();
+		Banco banco = new Banco();
 
-		Menu mainMenu =  new Menu("\nMenu Principal", Arrays.asList("Conta", "Cliente", "Operacoes", "Sair"));
-		Menu contaMenu = new Menu("\nMenu Conta", Arrays.asList("Cadastrar"));
-
+		Menu mainMenu =  new Menu("Menu Principal", Arrays.asList("Conta", "Cliente", "Operacoes", "Sair"));
+		Menu contaMenu = new Menu("Menu Conta", Arrays.asList("Cadastrar", "Consultar Saldo", "Consultar Histórico", "Visualizar"));
+		Menu clientMenu = new Menu("Menu Cliente", Arrays.asList("Cadastrar", "Visualizar"));
+		Menu operaMenu = new Menu("Menu Operações", Arrays.asList("Saque", "Depósito", "Tranferência", "Pagar fatura"));
 		int opMainMenu = mainMenu.getSelection();
 
 		while(opMainMenu != 4) {
@@ -19,24 +21,13 @@ public class Main {
 					int opContaMenu = contaMenu.getSelection();
 					switch(opContaMenu) {
 							case 1:
-								int numero, agencia;
-								String tipo;
-
-								System.out.println("\nCadastro de conta\n");
-								System.out.println("Informe o numero da conta: ");
-								numero = Integer.parseInt(s.nextLine());
-
-								System.out.println("\nInforme a agencia: ");
-								agencia = Integer.parseInt(s.nextLine());
-
-								System.out.println("\nInforme o tipo da conta: ");
-								tipo = s.nextLine();
-
-								contas.add(new Conta(numero, agencia, tipo));
-								System.out.println("\nConta cadastrada com sucesso!");
+								banco.cadastrarConta();
 								break;
 							default:
+							case 2:
+								
 								break;
+							
 						}
 					break;
 				case 2:

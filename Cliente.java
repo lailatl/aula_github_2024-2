@@ -15,6 +15,11 @@ public class Cliente {
         this.email = email;
         this.conta = null;
     }
+
+    public Cliente (){
+
+    }
+    
     // Getters e Setters para cada atributo
     public String getNome() {
         return nome;

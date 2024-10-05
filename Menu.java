@@ -19,16 +19,20 @@ public class Menu {
 
 	public int getSelection() {
 		int op = 0;
+		String espaco = "\n-----------------------------------------------\n";
+
 		while (op==0){
-			System.out.println(title+"\n");
+			System.out.println(espaco+title+"\n");
 			int i=1;
 			for (String option : options) {
 				System.out.println(i++ + " - " + option);
 			}
+			System.out.println(espaco);
 
-			System.out.println("Informe a opcao desejada. ");
+			System.out.println("Informe a opcao desejada:");
 			Scanner s = new Scanner(System.in);
 			String str = s.nextLine();
+		
 			try {
 				op = Integer.parseInt(str);
 			}

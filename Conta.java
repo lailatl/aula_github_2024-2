@@ -1,9 +1,10 @@
+import java.util.ArrayList;
 public class Conta {
     private int numero;
     private int agencia;
     private String tipo;
     private double saldo = 0.0;
-    
+    private ArrayList<Transacao> transacoes = new ArrayList<>();
 
     public Conta(int num, int agencia, String tipo) {
        this.numero = num;
