@@ -1,17 +1,23 @@
-import java.util.ArrayList;
+
+import java.util.List;
+
 
 public class Conta {
     private int numero;
     private int agencia;
     private String tipo;
-    private double saldo = 0.0;
-    private ArrayList<Transacao> Historico = new ArrayList<>();
+
+    private double saldo;
+    private List<Transacao> transacoes;
+
     
 
     public Conta(int num, int agencia, String tipo) {
        this.numero = num;
        this.agencia = agencia;
        this.tipo = tipo;
+       this.saldo = 100.0;
+       this.transacoes = new ArrayList<>();
     }
     // Getters e Setters para cada atributo
     public int getNumero() {
@@ -46,8 +52,13 @@ public class Conta {
         this.saldo = saldo;
     }
 
-    public void addTransacao(Transacao transacao){
-        Historico.add(transacao);
+
+    public List<Transacao> getTransacoes() {
+        return transacoes;
+    }
+
+    public void setTransacao(Transacao transacao) {
+        transacoes.add(transacao);
     }
 
 

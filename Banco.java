@@ -145,9 +145,45 @@ public class Banco {
     }
 
     ////////////falta implemetar//////////////
-    public void fazerSaque(){
-        System.out.println(espaco+"Realizar Saque na Conta\n");
-        
+    public void fazerSaque() {
+        System.out.println(espaco + "Realizar Saque na Conta\n");
+
+        System.out.print("Informe o número do seu CPF: ");
+        String cpf = s.nextLine();
+
+        Cliente cliente = findCliente(cpf);
+        if (cliente == null) {
+            System.out.println(warning + "Cliente não cadastrado\n");
+            return;
+        }
+
+        Conta conta = cliente.getConta();
+        if (conta == null) {
+            System.out.println(warning + "Conta não encontrada\n");
+            return;
+        }
+
+        System.out.print("Informe o valor do saque: ");
+        double valor = s.nextDouble();
+        s.nextLine(); // Consumir a nova linha
+
+        if (valor <= 0) {
+            System.out.println(warning + "Valor de saque inválido\n");
+            return;
+        }
+
+        if (conta.getSaldo() >= valor) {
+            conta.setSaldo(conta.getSaldo() - valor);
+
+            Date data = new Date();
+            String tipo = "Saque";
+            Transacao transacao = new Transacao(data, tipo, valor);
+            conta.setTransacao(transacao);
+
+            System.out.println("Saque de valor " + valor + " realizado com sucesso. Novo saldo: " + conta.getSaldo() + format);
+        } else {
+            System.out.println(warning + "Saldo insuficiente para realizar o saque\n");
+        }
     }
 
     ////////////falta implemetar//////////////
@@ -176,7 +212,16 @@ public class Banco {
             return cliente;
            }  
         }
-        return null; // Return null if no matching client is found
+        return null;
+    }
+
+    public Conta findConta(int numeroConta) {
+        for (Conta conta : Contas) {
+            if (conta.getNumero() == numeroConta) {
+                return conta;
+            }
+        }
+        return null;
     }
 
     public int gerarNumeroConta() {

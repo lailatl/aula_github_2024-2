@@ -16,6 +16,7 @@ public class Main {
 
 		while(opMainMenu != 4) {
 			switch(opMainMenu) {
+				// Menu Conta
 				case 1:
 					int opContaMenu = contaMenu.getSelection();
 					switch(opContaMenu) {
@@ -33,6 +34,7 @@ public class Main {
 								break;	
 						}
 					break;
+				// Menu Cliente
 				case 2:
 					int opClientMenu = clientMenu.getSelection();
 					switch (opClientMenu) {
@@ -44,6 +46,7 @@ public class Main {
 							break;
 					}
 					break;
+				// Menu Operacoes
 				case 3:
 					int opOperacoesMenu = operacoesMenu.getSelection();
 					switch (opOperacoesMenu) {
