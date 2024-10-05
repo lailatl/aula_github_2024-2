@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -111,9 +112,35 @@ public class Banco {
         
     }
 
-    ////////////falta implemetar//////////////
     public void fazerDeposito(){
+        String cpf;
         System.out.println(espaco+"Realizar Depósito na Conta\n");
+
+        System.out.println("Informe o número do seu CPF: ");
+        cpf = s.nextLine();
+
+        Cliente cliente = findCliente(cpf);
+        if (cliente == null){ 
+            System.out.println(warning+"Cliente não cadastrado\n");
+            return;
+        } else {
+            double valor;
+
+            System.out.println("\nInforme o valor a ser depositado: ");
+            valor = Double.parseDouble(s.nextLine());
+
+            if(valor <=0){
+                System.out.println(warning+"Valor inválido\n");
+                return;
+            } else {
+                cliente.getConta().setSaldo(cliente.getConta().getSaldo() + valor);
+                Transacao transacao = new Transacao(LocalDateTime.now(), "Depósito", valor);
+                cliente.getConta().addTransacao(transacao);
+                
+                System.out.println(format+"Depósito realizado com sucesso!\n");
+                System.out.println("Novo saldo: " + cliente.getConta().getSaldo()+format);
+            }
+        }
         
     }
 

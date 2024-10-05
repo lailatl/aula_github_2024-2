@@ -1,8 +1,11 @@
+import java.util.ArrayList;
+
 public class Conta {
     private int numero;
     private int agencia;
     private String tipo;
     private double saldo = 0.0;
+    private ArrayList<Transacao> Historico = new ArrayList<>();
     
 
     public Conta(int num, int agencia, String tipo) {
@@ -42,5 +45,10 @@ public class Conta {
     public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
+
+    public void addTransacao(Transacao transacao){
+        Historico.add(transacao);
+    }
+
 
 }
