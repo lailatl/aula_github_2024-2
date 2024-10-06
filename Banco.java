@@ -19,10 +19,36 @@ public class Banco {
     }
 
 
-    ////////////falta implemetar//////////////
+    
     public void cadastrarCliente(){
         System.out.println(espaco+"Cadastro de Cliente\n");
-        
+        String nomeCompleto, cpf, endereco, telefone, email;
+
+        //Já é pedido o CPF de primeira. Caso já exista, o processo de cadastro se encerra na hora.
+        System.out.println("Informe o número do seu CPF: ");
+        cpf = s.nextLine();
+
+        //Se NÃO exister cliente com o cpf dado anteriormente, o cadastro se inicia de fato.
+        if(this.findCliente(cpf)==null){
+            System.out.println("\nInforme o seu nome completo: ");
+            nomeCompleto = s.nextLine();
+
+            System.out.println("\nInforme o seu endereço: ");
+            endereco = s.nextLine();
+
+            System.out.println("\nInforme o seu telefone: ");
+            telefone = s.nextLine();
+
+            System.out.println("\nInforme o seu melhor email: ");
+            email = s.nextLine();
+
+            this.Clientes.add(new Cliente(nomeCompleto, cpf, endereco, telefone, email));
+
+            System.out.println(format+"Cliente Cadastrado Com Sucesso");
+            return;
+        }
+        System.out.println(warning+"Cliente Já Possui Cadastro");
+        return;
     }
 
     public void cadastrarConta(){
