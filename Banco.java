@@ -61,10 +61,13 @@ public class Banco {
         if (cliente == null){ 
             System.out.println(warning+"Cliente não cadastrado\n");
             return;
-        } else {
-            System.out.println(format+"O saldo da sua conta é: " + cliente.getConta().getSaldo()+format);
         }
-
+        Conta conta = cliente.getConta();
+        if (conta == null) {
+            System.out.println(warning + "Cliente não possui uma conta cadastrada\n");
+            return;
+        }
+        System.out.println(format + "O saldo da sua conta é: " + conta.getSaldo() + format);
     }
 
      public void visualizarCliente(){
@@ -99,15 +102,18 @@ public class Banco {
         if (cliente == null){ 
             System.out.println(warning+"Cliente não cadastrado\n");
             return;
-        } else {
-            Conta conta = cliente.getConta();
+        }
+        Conta conta = cliente.getConta();
+        if (conta == null){
+            System.out.println(warning + "Cliente não possui uma conta cadastrada\n");
+            return;
+        }else{
             System.out.println(format+"DADOS DA CONTA\n");
             System.out.println("Número: " + conta.getNumero());
             System.out.println("Agência: " + conta.getAgencia());
             System.out.println("Tipo: " + conta.getTipo());
             System.out.println("Saldo: " + conta.getSaldo()+format);
         }
-        
     }
 
     public void fazerDeposito(){
