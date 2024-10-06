@@ -87,10 +87,13 @@ public class Banco {
         if (cliente == null){ 
             System.out.println(warning+"Cliente não cadastrado\n");
             return;
-        } else {
-            System.out.println(format+"O saldo da sua conta é: " + cliente.getConta().getSaldo()+format);
         }
-
+        Conta conta = cliente.getConta();
+        if (conta == null) {
+            System.out.println(warning + "Cliente não possui uma conta cadastrada\n");
+            return;
+        }
+        System.out.println(format + "O saldo da sua conta é: " + conta.getSaldo() + format);
     }
 
      public void visualizarCliente(){
@@ -125,15 +128,18 @@ public class Banco {
         if (cliente == null){ 
             System.out.println(warning+"Cliente não cadastrado\n");
             return;
-        } else {
-            Conta conta = cliente.getConta();
+        }
+        Conta conta = cliente.getConta();
+        if (conta == null){
+            System.out.println(warning + "Cliente não possui uma conta cadastrada\n");
+            return;
+        }else{
             System.out.println(format+"DADOS DA CONTA\n");
             System.out.println("Número: " + conta.getNumero());
             System.out.println("Agência: " + conta.getAgencia());
             System.out.println("Tipo: " + conta.getTipo());
             System.out.println("Saldo: " + conta.getSaldo()+format);
         }
-        
     }
 
     public void fazerDeposito(){
@@ -208,10 +214,44 @@ public class Banco {
         }
     }
 
-    ////////////falta implemetar//////////////
-    public void pagarFatura(){
-        System.out.println(espaco+"Realizar Pagamento de Fatura\n");
+    public void pagarFatura() {
+        System.out.println("Realizar Pagamento de Fatura\n");
         
+        System.out.print("Informe o número do seu CPF: ");
+        String cpf = s.nextLine();
+        
+        System.out.print("Digite a identificação da fatura (código de barras ou número de referência): ");
+        String identificacaoFatura = s.next();
+
+        System.out.print("Digite o valor da fatura: ");
+        double valorFatura = s.nextDouble();
+
+        Cliente cliente = findCliente(cpf);
+        if (cliente == null) {
+            System.out.println(warning + "Cliente não cadastrado\n");
+            return;
+        }
+
+        Conta conta = cliente.getConta();
+        if (conta == null) {
+            System.out.println(warning + "Conta não encontrada\n");
+            return;
+        }
+    
+        if (conta.getSaldo() >= valorFatura) {
+            conta.setSaldo(conta.getSaldo() - valorFatura);
+    
+            String tipo = "Pagamento de Fatura" + identificacaoFatura;
+            Transacao transacao = new Transacao(LocalDateTime.now(), tipo, valorFatura);
+            conta.setTransacao(transacao);
+    
+            System.out.println("Pagamento de fatura no valor de " + valorFatura + " realizado com sucesso. Novo saldo: " + conta.getSaldo());
+    
+            // Enviar confirmação de pagamento ao cliente (simulação)
+            System.out.println("Confirmação de pagamento enviada ao cliente.");
+        } else {
+            System.out.println("Saldo insuficiente para realizar o pagamento da fatura.");
+        }
     }
 
     ////////////falta implemetar//////////////
