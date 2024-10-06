@@ -57,7 +57,7 @@ public class Main {
 							banco.fazerDeposito();
 							break;
 						case 3:
-							banco.fazerTranferencia();
+							banco.fazerTransferencia();
 							break;
 						case 4:
 							banco.pagarFatura();

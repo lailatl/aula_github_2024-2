@@ -8,16 +8,17 @@ public class Banco {
     String format = "\n********************************\n"; // usar para mensagens de concluído
     String warning = "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"; // usar para mensgens de erro
     String espaco = "\n-----------------------------------------------\n"; // usar antes dos nomes das funções principais
-    ArrayList<Cliente> Clientes = new ArrayList<>();
-    ArrayList<Conta> Contas = new ArrayList<>();
-
+    ArrayList<Cliente> Clientes;
+    ArrayList<Conta> Contas;
 
     public Banco() {
-        ArrayList<Conta> Contas = new ArrayList<>();
+        Clientes = new ArrayList<>();
+        Contas = new ArrayList<>();
         Cliente cliente1 = new Cliente("ygor", "123" , "rua tal","2222-3333", "yfcm@mail");
+        Cliente cliente2 = new Cliente("mancini", "456" , "rua tal tal","4444-5555", "mancini@mail");
         Clientes.add(cliente1);
+        Clientes.add(cliente2);
     }
-
 
     ////////////falta implemetar//////////////
     public void cadastrarCliente(){
@@ -121,6 +122,11 @@ public class Banco {
         if (cliente == null){ 
             System.out.println(warning+"Cliente não cadastrado\n");
             return;
+
+        } else if(cliente.getConta() == null){
+            System.out.println(warning+"Conta não cadastrada\n");
+            return;
+
         } else {
             double valor;
 
@@ -188,9 +194,58 @@ public class Banco {
         
     }
 
-    ////////////falta implemetar//////////////
-    public void fazerTranferencia(){
+    public void fazerTransferencia(){
+        String cpfRemetente;
         System.out.println(espaco+"Realizar Transferencia entre contas\n");
+
+        System.out.println("Informe o número do seu CPF: ");
+        cpfRemetente = s.nextLine();
+
+        Cliente clienteRemetente = findCliente(cpfRemetente);
+        if (clienteRemetente == null){ 
+            System.out.println(warning+"Cliente não cadastrado\n");
+            return;
+        } 
+        
+        String cpfDestinatario;
+        System.out.println("Informe o número do CPF do destinatário: ");
+        cpfDestinatario = s.nextLine();
+
+        Cliente clienteDestinatario = findCliente(cpfDestinatario);
+        if(clienteDestinatario == null){
+            System.out.println(warning+"Cliente não cadastrado\n");
+            return;
+        } 
+
+        double valor;
+        System.out.println("\nInforme o valor a ser transferido: ");
+        valor = Double.parseDouble(s.nextLine());
+
+        if(valor <= 0) {
+            System.out.println(warning+"Valor inválido\n");
+            return;
+
+        }else if(clienteRemetente.getConta().getSaldo() < valor){
+            System.out.println(warning+"Saldo insuficiente\n");
+            return;
+
+        }else{
+            clienteRemetente.getConta().setSaldo(clienteRemetente.getConta().getSaldo() - valor);
+            clienteDestinatario.getConta().setSaldo(clienteDestinatario.getConta().getSaldo() + valor);
+
+            LocalDateTime data = LocalDateTime.now();
+            Transacao transacaoRemetente = new Transacao(data, "Transferência", valor);
+            Transacao transacaoDestinatario = new Transacao(data, "Transferência", valor);
+
+            transacaoRemetente.setDescricao("Transferência para " + clienteDestinatario.getNome());
+            transacaoDestinatario.setDescricao("Transferência recebida de " + clienteRemetente.getNome());
+
+            clienteRemetente.getConta().setTransacao(transacaoRemetente);
+            clienteDestinatario.getConta().setTransacao(transacaoDestinatario);
+
+            System.out.println(format+"Transferência realizada com sucesso!\n");
+            System.out.println("Novo saldo: " + clienteRemetente.getConta().getSaldo()+format);
+        }
         
     }
 
