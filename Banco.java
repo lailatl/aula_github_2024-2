@@ -16,6 +16,16 @@ public class Banco {
         Contas = new ArrayList<>();
         Cliente cliente1 = new Cliente("ygor", "123" , "rua tal","2222-3333", "yfcm@mail");
         Cliente cliente2 = new Cliente("mancini", "456" , "rua tal tal","4444-5555", "mancini@mail");
+        Conta conta1 = new Conta(14365367, 567, "Corrente");
+        Conta conta2 = new Conta(43256754, 327, "Corrente");
+        cliente2.setConta(conta1);
+        cliente1.setConta(conta2);
+        //this.fazerDeposito();
+        //fazerDeposito();
+        //LocalDateTime data = LocalDateTime.now();
+        //cliente2.getConta().setTransacao(new Transacao(LocalDateTime.now(), "Depósito", 150));
+        //cliente2.getConta().setTransacao(new Transacao(LocalDateTime.now().plusDays(5), "Saque", 150));
+
         Clientes.add(cliente1);
         Clientes.add(cliente2);
     }
@@ -168,9 +178,10 @@ public class Banco {
                 System.out.println(warning+"Valor inválido\n");
                 return;
             } else {
-                cliente.getConta().setSaldo(cliente.getConta().getSaldo() + valor);
-                Transacao transacao = new Transacao(LocalDateTime.now(), "Depósito", valor);
+                Transacao transacao = new Transacao(LocalDateTime.now(), "Depósito", valor, cliente.getConta().getSaldo(), cliente.getConta().getSaldo() + valor);
                 cliente.getConta().setTransacao(transacao);
+
+                cliente.getConta().setSaldo(cliente.getConta().getSaldo() + valor);
                 
                 System.out.println(format+"Depósito realizado com sucesso!\n");
                 System.out.println("Novo saldo: " + cliente.getConta().getSaldo()+format);
@@ -207,11 +218,11 @@ public class Banco {
         }
 
         if (conta.getSaldo() >= valor) {
+            String tipo = "Saque";
+            Transacao transacao = new Transacao(LocalDateTime.now(), tipo, valor, conta.getSaldo(), conta.getSaldo() - valor);
+            conta.setTransacao(transacao);
             conta.setSaldo(conta.getSaldo() - valor);
 
-            String tipo = "Saque";
-            Transacao transacao = new Transacao(LocalDateTime.now(), tipo, valor);
-            conta.setTransacao(transacao);
 
             System.out.println("Saque de valor " + valor + " realizado com sucesso. Novo saldo: " + conta.getSaldo() + format);
         } else {
@@ -244,11 +255,10 @@ public class Banco {
         }
     
         if (conta.getSaldo() >= valorFatura) {
-            conta.setSaldo(conta.getSaldo() - valorFatura);
-    
             String tipo = "Pagamento de Fatura" + identificacaoFatura;
-            Transacao transacao = new Transacao(LocalDateTime.now(), tipo, valorFatura);
+            Transacao transacao = new Transacao(LocalDateTime.now(), tipo, valorFatura, conta.getSaldo(), conta.getSaldo() - valorFatura);
             conta.setTransacao(transacao);
+            conta.setSaldo(conta.getSaldo() - valorFatura);
     
             System.out.println("Pagamento de fatura no valor de " + valorFatura + " realizado com sucesso. Novo saldo: " + conta.getSaldo());
     
@@ -295,12 +305,17 @@ public class Banco {
             return;
 
         }else{
+            LocalDateTime data = LocalDateTime.now();
+            Transacao transacaoRemetente = new Transacao(data, "Transferência", valor, clienteRemetente.getConta().getSaldo(), clienteRemetente.getConta().getSaldo() - valor);
+            Transacao transacaoDestinatario = new Transacao(data, "Transferência", valor, clienteDestinatario.getConta().getSaldo(), clienteDestinatario.getConta().getSaldo() + valor);
+
+            transacaoRemetente.setTransacaoCliente(clienteRemetente, clienteDestinatario);
+            transacaoDestinatario.setTransacaoCliente(clienteRemetente, clienteDestinatario);
+            //transacaoRemetente.setTransacaoCliente(clienteRemetente, clienteDestinatario);
+
             clienteRemetente.getConta().setSaldo(clienteRemetente.getConta().getSaldo() - valor);
             clienteDestinatario.getConta().setSaldo(clienteDestinatario.getConta().getSaldo() + valor);
 
-            LocalDateTime data = LocalDateTime.now();
-            Transacao transacaoRemetente = new Transacao(data, "Transferência", valor);
-            Transacao transacaoDestinatario = new Transacao(data, "Transferência", valor);
 
             transacaoRemetente.setDescricao("Transferência para " + clienteDestinatario.getNome());
             transacaoDestinatario.setDescricao("Transferência recebida de " + clienteRemetente.getNome());
@@ -317,7 +332,46 @@ public class Banco {
     ////////////falta implemetar//////////////
     public void visualizarHistorico(){
         System.out.println(espaco+"Visualizar Histórico de transações da Conta\n");
-        //acessar o arraylist de transações dentro de conta
+        String cpf;
+
+        System.out.println("Informe o número do seu CPF: ");
+        cpf = s.nextLine();
+
+        Cliente cliente = this.findCliente(cpf);
+
+        if(cliente == null){
+            System.out.println(warning+"Cliente não cadastrado\n");
+            return;
+        }else if(cliente.getConta() == null){
+            System.out.println(warning+"Conta não cadastrada\n");
+            return;
+        }
+
+        System.out.printf("\nTipo Da Conta: %s\n", cliente.getConta().getTipo());
+        System.out.printf("Saldo Atual Da Conta: %.2f\n\n", cliente.getConta().getSaldo());
+
+        for (int i = cliente.getConta().getTransacoes().size() - 1; i >= 0; i--) {
+
+            Transacao transacao = cliente.getConta().getTransacoes().get(i);
+            String data = transacao.getDataFormatada();
+            double valorTransacao = transacao.getValor();
+            double valorAntes = transacao.getSaldoAntesTransacao();
+            double valorDepois = transacao.getSaldoPosTransacao();
+
+            if(transacao.getTipo().equals("Depósito")){
+                System.out.printf("\nData: %s \n   Tipo: Depósito | Valor Da Transação: %.2f | Saldo Anterior: %.2f | Saldo: %.2f\n", data, valorTransacao, valorAntes,valorDepois);
+            }else if(transacao.getTipo().equals("Saque")){
+                System.out.printf("\nData: %s \n   Tipo: Saque | Valor Da Transação: %.2f | Saldo Anterior: %.2f | Saldo: %.2f\n", data, -valorTransacao, valorAntes, valorDepois);
+            }else if(transacao.getTipo().startsWith("Pagamento de Fatura")){
+                System.out.printf("\nData: %s \n   Tipo: %s | Valor Da Transação: %.2f | Saldo Anterior: %.2f | Saldo: %.2f\n", data, transacao.getTipo(), -valorTransacao, valorAntes, valorDepois);
+            }else if (transacao.getTipo().equals("Transferência")) {
+                if(valorAntes>valorDepois){
+                    System.out.printf("\nData: %s \n   Tipo: %s | Enviada para: %s | Valor Da Transação: %.2f | Saldo Anterior: %.2f | Saldo: %.2f\n", data, transacao.getTipo(), transacao.getClienteDestinatario().getNome(), -valorTransacao, valorAntes, valorDepois);
+                }else{
+                    System.out.printf("\nData: %s \n   Tipo: %s | Recebida por: %s | Valor Da Transação: %.2f | Saldo Anterior: %.2f | Saldo: %.2f\n", data, transacao.getTipo(), transacao.getClienteRemetente().getNome(),valorTransacao, valorAntes, valorDepois);
+                }
+            }
+        }
     }
 
 

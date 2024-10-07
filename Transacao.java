@@ -6,12 +6,40 @@ public class Transacao {
     private String tipo;
     private double valor;
     private String descricao = "";
+    private double saldoAntesTransacao;
+    private double saldoPosTransacao;
+    private Cliente clienteRemetente = null;
+    private Cliente clienteDestinatario = null;
 
-    public Transacao(LocalDateTime data, String tipo, double valor) {
+    public Transacao(LocalDateTime data, String tipo, double valor, double saldoAntesTransacao, double saldoPosTransacao) {
         this.data = data;
         this.tipo = tipo;
         this.valor = valor;
-     }
+        this.saldoAntesTransacao = saldoAntesTransacao;
+        this.saldoPosTransacao = saldoPosTransacao;
+    }
+
+    public double getSaldoAntesTransacao(){
+        return this.saldoAntesTransacao;
+    }
+
+    public double getSaldoPosTransacao(){
+        return this.saldoPosTransacao;
+    }
+
+    public void setTransacaoCliente(Cliente remetente, Cliente destinatario){
+        this.clienteRemetente = remetente;
+        this.clienteDestinatario = destinatario;
+    }
+
+    public Cliente getClienteDestinatario(){
+        return this.clienteDestinatario;
+    }
+
+    public Cliente getClienteRemetente(){
+        return this.clienteRemetente;
+    }
+
 
     public double getValor() {
         return valor;
