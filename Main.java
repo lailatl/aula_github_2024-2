@@ -68,9 +68,7 @@ public class Main {
 			}
 			opMainMenu = mainMenu.getSelection();
 		}
-
 		s.close();
 		System.out.println("Fim");
 	}
-
 }
