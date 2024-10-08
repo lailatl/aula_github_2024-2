@@ -54,7 +54,7 @@ public class Banco {
 
             this.Clientes.add(new Cliente(nomeCompleto, cpf, endereco, telefone, email));
 
-            System.out.println(format+"Cliente Cadastrado Com Sucesso");
+            System.out.println(format+"Cliente Cadastrado Com Sucesso"+format);
             return;
         }
         System.out.println(warning+"Cliente Já Possui Cadastro");
@@ -224,7 +224,7 @@ public class Banco {
             conta.setSaldo(conta.getSaldo() - valor);
 
 
-            System.out.println("Saque de valor " + valor + " realizado com sucesso. Novo saldo: " + conta.getSaldo() + format);
+            System.out.println(format+"Saque de valor " + valor + " realizado com sucesso. Novo saldo: " + conta.getSaldo() + format);
         } else {
             System.out.println(warning + "Saldo insuficiente para realizar o saque\n");
         }
@@ -260,7 +260,7 @@ public class Banco {
             conta.setTransacao(transacao);
             conta.setSaldo(conta.getSaldo() - valorFatura);
     
-            System.out.println("Pagamento de fatura no valor de " + valorFatura + " realizado com sucesso. Novo saldo: " + conta.getSaldo());
+            System.out.println(format+"Pagamento de fatura no valor de " + valorFatura + " realizado com sucesso. Novo saldo: " + conta.getSaldo());
     
             // Enviar confirmação de pagamento ao cliente (simulação)
             System.out.println("Confirmação de pagamento enviada ao cliente.");
@@ -329,7 +329,7 @@ public class Banco {
         
     }
 
-    ////////////falta implemetar//////////////
+    
     public void visualizarHistorico(){
         System.out.println(espaco+"Visualizar Histórico de transações da Conta\n");
         String cpf;

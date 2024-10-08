@@ -40,7 +40,6 @@ public class Transacao {
         return this.clienteRemetente;
     }
 
-
     public double getValor() {
         return valor;
     }

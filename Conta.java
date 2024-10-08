@@ -10,7 +10,6 @@ public class Conta {
     private double saldo;
     private List<Transacao> transacoes;
 
-    
 
     public Conta(int num, int agencia, String tipo) {
        this.numero = num;
@@ -19,7 +18,8 @@ public class Conta {
        this.saldo = 100.0;
        this.transacoes = new ArrayList<>();
     }
-    // Getters e Setters para cada atributo
+
+    
     public int getNumero() {
         return numero;
     }
